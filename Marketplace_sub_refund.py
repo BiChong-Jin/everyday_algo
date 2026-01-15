@@ -13,16 +13,18 @@ def parse_time(ts: str):
 
 
 class User:
-    pass
+    def __init__(self, user_id, name) -> None:
+        self.user_id = user_id
+        self.name = name
+        self.active_sub = False
 
 
 class Plan:
-    def __init__(self, plan_id, name, monthly_cost, monthly_price) -> None:
-        self.plan_id = plan_id
+    def __init__(self, name, monthly_cost, monthly_price) -> None:
         self.name = name
         self.monthly_cost = monthly_cost
         self.monthly_price = monthly_price
-        self.deleted_flag = False
+        self.deleted = False
 
 
 class Subsctiption:
@@ -58,7 +60,8 @@ if __name__ == "__main__":
     else:
         rate_int = int(rate_str) * 100
 
-    created_plan = set()
+    plans = {}
+    plan_name_to_id = {}
 
     user_cnt = int(input())
     user_name = []
@@ -74,6 +77,10 @@ if __name__ == "__main__":
     query_cnt = int(input())
     queries = []
 
+    next_plan_id = 1
+    next_user_id = 1
+    subscribe_id = 1
+
     for i in range(query_cnt):
         line = input().strip()
         if line.startswith("create-plan: "):
@@ -83,8 +90,27 @@ if __name__ == "__main__":
             monthly_cost = int(monthly_cost_str)
             monthly_price = int(monthly_price_str)
 
-            if plan_name in created_plan:
+            if plan_name in plan_name_to_id:
                 print("Plan already exsits.")
+                continue
 
             elif cond_margin_ok(monthly_price, monthly_cost):
-                print("create-plan: ")
+                print("create-plan: f{next_plan_id}")
+                plan_name_to_id[plan_name] = next_plan_id
+                plans[next_plan_id] = Plan(plan_name, monthly_cost, monthly_price)
+
+                next_plan_id += 1
+
+        elif line.startswith("subscribe"):
+            _, rest = line.split(": ")
+            t_str, user_id, plan_id = rest.split()
+            t = parse_time(t_str)
+
+            if plan_id not in plans:
+                print("Plan does not exsits.")
+                continue
+            if plans[plan_io].deleted:
+                print("Plan has been deleted.")
+                continue
+            if 
+                
