@@ -16,7 +16,7 @@ class User:
     def __init__(self, user_id, name) -> None:
         self.user_id = user_id
         self.name = name
-        self.active_sub = False
+        self.active_sub = None
 
 
 class Plan:
@@ -60,11 +60,12 @@ if __name__ == "__main__":
     else:
         rate_int = int(rate_str) * 100
 
-    plans = {}
-    plan_name_to_id = {}
+    plans = {}  # user_id -> Plan()
+    plan_name_to_id = {}  # plan_name -> plan_id
 
     user_cnt = int(input())
     user_name = []
+    users = [0] * (user_cnt + 1)
 
     for i in range(user_cnt):
         curr_user_name = input()
@@ -78,8 +79,8 @@ if __name__ == "__main__":
     queries = []
 
     next_plan_id = 1
-    next_user_id = 1
-    subscribe_id = 1
+    next_subscribe_id = 1
+    subcribes = [None] * query_cnt
 
     for i in range(query_cnt):
         line = input().strip()
@@ -109,8 +110,17 @@ if __name__ == "__main__":
             if plan_id not in plans:
                 print("Plan does not exsits.")
                 continue
-            if plans[plan_io].deleted:
+            if plans[plan_id].deleted:
                 print("Plan has been deleted.")
                 continue
-            if 
-                
+            if users[user_id].active_sub != None:
+                print(
+                    "f{user_id} already has subscription f{user_sub_status[user_id].active_sub}."
+                )
+                continue
+
+            users[user_id].active_sub = next_subscribe_id
+            subcribes[next_subscribe_id] = Subsctiption(
+                next_subscribe_id, user_id, plan_id, t, None
+            )
+            next_subscribe_id += 1
